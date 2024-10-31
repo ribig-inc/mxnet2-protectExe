@@ -27,7 +27,7 @@ using namespace std::chrono_literals;
 
 namespace sampleApp{
 
-    constexpr _mxINT32   USERCODE = 34219;
+    constexpr _mxINT32   USERCODE = 1234;
     constexpr _mxINT16   APPSLOT = 7;
     constexpr int        INTERVAL = 5;  // second
 
