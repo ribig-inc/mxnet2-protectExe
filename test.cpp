@@ -132,7 +132,7 @@ namespace sampleApp{
 
 }
 
-#if !defined(CONSOLE_APP)
+#if defined(CONSOLE_APP)
 //　プロジェクトプロパティ: リンカー　-　システム - サブシステム - コンソール (/SUBSYSTEM:CONSOLE)にセット
 //　コンソールウィンドウ表示
 int main()
