@@ -29,8 +29,10 @@ namespace sampleApp{
     constexpr _mxINT16   APPSLOT = 7;
     constexpr int        INTERVAL = 5;  // second
 
+    // better to encrypt the user credential
     struct UserCred {
         std::wstring user{ L"protectedApp" };
+        // encrypt the password!
         std::wstring passwd{ L"secret" };
         std::wstring domain{ L"." }; //local account domain
     };
