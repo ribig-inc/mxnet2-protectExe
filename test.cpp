@@ -160,9 +160,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
          return -1;
      }
 
-
-
-
     //プログラム本体の処理開始
     return sampleApp::app_main();
 }
