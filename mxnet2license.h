@@ -38,7 +38,7 @@ namespace mxnet2 {
         License(const License&) = delete;
         License& operator=(const License&) = delete;
 
-        License(int userCode, short appSlot, int interval, void(*exitAppCallback)());
+        License(int userCode, short appSlot, int interval, ExitAppCallback callback);
         ~License();   
 
         bool get(_mxINT32 usercode, _mxINT16 appSlot);
