@@ -8,9 +8,9 @@ using namespace std::chrono_literals;
 
 namespace mxnet2 {
 
-    License::License(int userCode, short appSlot, int interval, void(*exitAppCallback)()) :
+    License::License(int userCode, short appSlot, int interval,  ExitAppCallback callback) :
         m_interval(interval), m_stop(false), m_userCode(userCode), m_appSlot(appSlot), m_runUpdate(false),
-        m_errorExit(false), m_exitAppCallback(exitAppCallback) {}
+        m_errorExit(false), m_exitAppCallback(callback) {}
 
 
     License::~License()
