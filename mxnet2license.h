@@ -34,6 +34,10 @@ namespace mxnet2 {
         void stopWaitThread();
         void stopUpdateThread();
 
+        static bool getSync(_mxINT32 usercode, _mxINT16 appSlot);
+        static void update(License* obj);
+        static void WaitProc(License* obj);
+
     public:
         License(const License&) = delete;
         License& operator=(const License&) = delete;
@@ -45,9 +49,5 @@ namespace mxnet2 {
 
         void startUpdate();
         void stopUpdate();
-
-        static bool getSync(_mxINT32 usercode, _mxINT16 appSlot);
-        static void update(License* obj);
-        static void WaitProc(License* obj);
     };
 }
