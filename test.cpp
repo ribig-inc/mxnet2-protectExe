@@ -11,7 +11,7 @@
 
 #include <stdexcept>
 
-#include "LoginUpdate.h"
+#include "mxnet2license.h"
 
 #ifdef  _MSC_VER
     #if defined _WIN64
@@ -27,15 +27,13 @@ using namespace std::chrono_literals;
 
 namespace sampleApp{
 
-    constexpr _mxINT32   USERCODE = 1234;
+    constexpr _mxINT32   USERCODE = 34219;
     constexpr _mxINT16   APPSLOT = 7;
     constexpr int        INTERVAL = 5;  // second
 
-    mxnet2license::LoginUpdate updater(USERCODE, APPSLOT, INTERVAL);
-
     struct UserCred {
         std::wstring user{ L"protectedApp" };
-        std::wstring passwd{ L"secret" };
+        std::wstring passwd{ L"kmori324324" };
         std::wstring domain{ L"." }; //local account domain
     };
 
@@ -49,6 +47,8 @@ namespace sampleApp{
         //他の方法で終了させる必要がある可能性あり
         TerminateProcess(pi.hProcess, -1);
     }
+
+    mxnet2::License mxnet2License(USERCODE, APPSLOT, INTERVAL, exitApp);
 
     static BOOL impersonateUser(const UserCred& cred, HANDLE& hUser)
     {
@@ -113,10 +113,10 @@ namespace sampleApp{
         try {
 
             //LoginUpdate バックグラウンド処理開始（５秒毎に LogIn_MatrixNet 呼出してライセンス更新)
-            updater.start();
+            mxnet2License.startUpdate();
 
             //フォアグラウンドでプログラム処理
-            std::wstring commandLine = L"absolute path to EXE file";
+            std::wstring commandLine = L"C:\\Users\\morikawa\\Desktop\\FTimeEdit - コピー.exe";
             std::pair<BOOL, long>retPair = runApp(commandLine);
 
             std::cout << "終了します" << std::endl;
@@ -137,7 +137,7 @@ namespace sampleApp{
 
 }
 
-#if defined(CONSOLE_APP)
+#if !defined(CONSOLE_APP)
 //　プロジェクトプロパティ: リンカー　-　システム - サブシステム - コンソール (/SUBSYSTEM:CONSOLE)にセット
 //　コンソールウィンドウ表示
 int main()
@@ -157,24 +157,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
      std::setlocale(LC_ALL, "");
 
-    // MxNet2 API はサーバに接続できないとブロックするため
-    // 別スレッドで呼出
-    std::future<bool> detectAsync = std::async(&mxnet2license::getLicense, sampleApp::USERCODE, sampleApp::APPSLOT);
+     if (false == sampleApp::mxnet2License.get(sampleApp::USERCODE, sampleApp::APPSLOT))
+     {
+         std::cout << "ライセンスを取得できませんでした" << std::endl;
+         return -1;
+     }
 
-    //しばらく待つ　サーバに問題なく接続できれば、待っている間に処理は完了するはずなので
-    //メッセージ表示されずに sampleApp::app_main()行へ
-    std::future_status status = detectAsync.wait_for(500ms);
 
-    while (status != std::future_status::ready)
-    {
-        std::cout << "ライセンス取得中..." << std::endl;
-        status = detectAsync.wait_for(2s);
-    }
-
-    if (detectAsync.get() == false) {
-        std::cout << "ライセンスを取得できませんでした" << std::endl;
-        return -1;
-    }
 
 
     //プログラム本体の処理開始
