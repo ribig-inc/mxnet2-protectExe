@@ -21,9 +21,7 @@
     #endif
 #endif
 
-
 using namespace std::chrono_literals;
-
 
 namespace sampleApp{
 
@@ -38,7 +36,6 @@ namespace sampleApp{
     };
 
     PROCESS_INFORMATION pi{};
-
 
     void exitApp()
     {
@@ -74,17 +71,15 @@ namespace sampleApp{
         STARTUPINFO si{};
         si.cb = sizeof(si);
 
-        if (!CreateProcess(nullptr, const_cast<wchar_t*>(commandLine.c_str()), nullptr, nullptr, false, 0, nullptr, nullptr, &si, &pi))
+        BOOL bRet=CreateProcess(nullptr, const_cast<wchar_t*>(commandLine.c_str()), nullptr, nullptr, false, 0, nullptr, nullptr, &si, &pi);
+        ReverToSelf();
+        if( bRet==FALSE )
         {
-            RevertToSelf();
-
             std::cout << "CreateProcess Error: " << GetLastError() << std::endl;
             retPair = std::make_pair(FALSE, 1);
         }
         else
         {
-            RevertToSelf();
-
             std::cout << "終了待ち" << std::endl;
             WaitForSingleObject(pi.hProcess, INFINITE);
 
