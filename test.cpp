@@ -27,13 +27,13 @@ using namespace std::chrono_literals;
 
 namespace sampleApp{
 
-    constexpr _mxINT32   USERCODE = 34219;
+    constexpr _mxINT32   USERCODE = 1234;
     constexpr _mxINT16   APPSLOT = 7;
     constexpr int        INTERVAL = 5;  // second
 
     struct UserCred {
         std::wstring user{ L"protectedApp" };
-        std::wstring passwd{ L"kmori324324" };
+        std::wstring passwd{ L"secret" };
         std::wstring domain{ L"." }; //local account domain
     };
 
@@ -116,7 +116,7 @@ namespace sampleApp{
             mxnet2License.startUpdate();
 
             //フォアグラウンドでプログラム処理
-            std::wstring commandLine = L"C:\\Users\\morikawa\\Desktop\\FTimeEdit - コピー.exe";
+            std::wstring commandLine = L"path to EXE";
             std::pair<BOOL, long>retPair = runApp(commandLine);
 
             std::cout << "終了します" << std::endl;
