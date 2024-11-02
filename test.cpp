@@ -37,6 +37,8 @@ namespace sampleApp{
         std::wstring domain{ L"." }; //local account domain
     };
 
+    std::wstring commandLine{L"path to restricted EXE"};
+
     PROCESS_INFORMATION pi{};
 
     void exitApp()
@@ -119,8 +121,7 @@ namespace sampleApp{
             mxnet2License.startUpdate();
 
             //フォアグラウンドでプログラム処理
-            std::wstring commandLine = L"path to EXE";
-            std::pair<BOOL, long>retPair = runApp(commandLine);
+            std::pair<BOOL, long>retPair = runApp(sampleApp::commandLine);
 
             std::cout << "終了します" << std::endl;
 
