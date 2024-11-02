@@ -58,13 +58,9 @@ namespace sampleApp{
         if (!LogonUser(cred.user.c_str(), cred.domain.c_str(), cred.passwd.c_str(), LOGON32_LOGON_NETWORK, LOGON32_PROVIDER_DEFAULT, &hUser))
             return FALSE;
 
-        if (!ImpersonateLoggedOnUser(hUser))
-        {
-            CloseHandle(hUser);
-            return FALSE;
-        }
-
-        return TRUE;
+        BOOL bResult= ImpersonateLoggedOnUser(hUser);
+        CloseHandle(hUser);
+        return bResult;
     }
 
     static const std::pair<BOOL, long>runApp( std::wstring& commandLine)
@@ -107,8 +103,6 @@ namespace sampleApp{
          
             retPair = std::make_pair(TRUE, ec);
         }
-
-        CloseHandle(hUser);
 
         return retPair;
     }
