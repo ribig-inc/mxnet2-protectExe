@@ -58,9 +58,13 @@ namespace sampleApp{
         if (!LogonUser(cred.user.c_str(), cred.domain.c_str(), cred.passwd.c_str(), LOGON32_LOGON_NETWORK, LOGON32_PROVIDER_DEFAULT, &hUser))
             return FALSE;
 
-        BOOL bResult= ImpersonateLoggedOnUser(hUser);
-        CloseHandle(hUser);
-        return bResult;
+       BOOL bResult = ImpersonateLoggedOnUser(hUser);
+       {
+           CloseHandle(hUser);
+           return FALSE;
+       }
+
+       return TRUE;
     }
 
     static const std::pair<BOOL, long>runApp( std::wstring& commandLine)
@@ -80,7 +84,10 @@ namespace sampleApp{
         si.cb = sizeof(si);
 
         BOOL bRet=CreateProcess(nullptr, const_cast<wchar_t*>(commandLine.c_str()), nullptr, nullptr, false, 0, nullptr, nullptr, &si, &pi);
+        
         ReverToSelf();
+        CloseHandle(hUser);
+        
         if( bRet==FALSE )
         {
             std::cout << "CreateProcess Error: " << GetLastError() << std::endl;
