@@ -58,7 +58,7 @@ namespace sampleApp{
         if (!LogonUser(cred.user.c_str(), cred.domain.c_str(), cred.passwd.c_str(), LOGON32_LOGON_NETWORK, LOGON32_PROVIDER_DEFAULT, &hUser))
             return FALSE;
 
-       BOOL bResult = ImpersonateLoggedOnUser(hUser);
+       if( !ImpersonateLoggedOnUser(hUser) )
        {
            CloseHandle(hUser);
            return FALSE;
