@@ -25,6 +25,7 @@ using namespace std::chrono_literals;
 
 namespace sampleApp{
 
+    /* パラメータ変更 */
     constexpr _mxINT32   USERCODE = 1234;
     constexpr _mxINT16   APPSLOT = 7;
     constexpr int        INTERVAL = 5;  // second
@@ -38,6 +39,7 @@ namespace sampleApp{
     };
 
     std::wstring commandLine{L"path to restricted EXE"};
+    /* パラメータ変更ここまで */
 
     PROCESS_INFORMATION pi{};
 
